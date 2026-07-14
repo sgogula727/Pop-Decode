@@ -20,26 +20,16 @@
   "menu": {
     "items": [
       {
-        "label": "Create a new post",
-        "description": "pop-decode",
+        "label": "Create Pop Decode Round",
+        "description": "Create a new movie or song guessing post",
         "location": "subreddit",
         "forUserType": "moderator",
-        "endpoint": "/internal/menu/post-create"
-      },
-      {
-        "label": "Example form",
-        "description": "Show a simple form",
-        "location": "subreddit",
-        "forUserType": "moderator",
-        "endpoint": "/internal/menu/example-form"
+        "endpoint": "/internal/menu/create-round"
       }
     ]
   },
   "forms": {
-    "exampleForm": "/internal/form/example-submit"
-  },
-  "triggers": {
-    "onAppInstall": "/internal/triggers/on-app-install"
+    "createRoundForm": "/internal/form/create-round-submit"
   },
   "scripts": {
     "dev": "vite build --watch",
