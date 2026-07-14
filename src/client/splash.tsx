@@ -65,19 +65,21 @@ export const Splash = () => {
           </span>
         </div>
 
-        <div className="mb-4 rounded-xl bg-orange-50 dark:bg-gray-900 p-4">
-          <h2 className="font-bold mb-2">How to play</h2>
-          <ol className="list-decimal pl-5 space-y-1 text-sm text-gray-700 dark:text-gray-300">
-            <li>
-              To create your own round, select “Create Pop Decode Round” from the subreddit menu and
-              complete the form.
-            </li>
-            <li>Read the first clue and try to identify the answer.</li>
-            <li>Open the game to guess or unlock up to three clues.</li>
-            <li>Guess correctly—or give up—to reveal the answer.</li>
-            <li>After the reveal, recommend something similar.</li>
-          </ol>
-        </div>
+        {error && (
+          <div className="mb-4 rounded-xl bg-orange-50 dark:bg-gray-900 p-4">
+            <h2 className="font-bold mb-2">How to play</h2>
+            <ol className="list-decimal pl-5 space-y-1 text-sm text-gray-700 dark:text-gray-300">
+              <li>
+                To create your own round, select “Create Pop Decode Round” from
+                the subreddit menu and complete the form.
+              </li>
+              <li>Read the first clue and try to identify the answer.</li>
+              <li>Open the game to guess or unlock up to three clues.</li>
+              <li>Guess correctly—or give up—to reveal the answer.</li>
+              <li>After the reveal, recommend something similar.</li>
+            </ol>
+          </div>
+        )}
 
         {roundData && (
           <>
@@ -97,7 +99,6 @@ export const Splash = () => {
             </button>
           </>
         )}
-
       </div>
     </div>
   );

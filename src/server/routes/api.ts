@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { context, redis } from '@devvit/web/server';
+import { context, redis, reddit } from '@devvit/web/server';
 import type {
   Recommendation,
   RecommendationResponse,
@@ -152,10 +152,35 @@ api.post('/recommendations', async (c) => {
     createdAt: Date.now(),
   };
 
-  await redis.zAdd(`recommendations:${postId}`, {
-    member: JSON.stringify(recommendation),
-    score: recommendation.createdAt,
-  });
+  const commentText = [
+    `**Community recommendation from u/${recommendation.username}**`,
+    `**${recommendation.title}**`,
+    recommendation.reason,
+  ]
+    .filter((line) => line.length > 0)
+    .join('\n\n');
+
+  try {
+    await reddit.submitComment({
+      id: postId,
+      text: commentText,
+      runAs: 'APP',
+    });
+
+    await redis.zAdd(`recommendations:${postId}`, {
+      member: JSON.stringify(recommendation),
+      score: recommendation.createdAt,
+    });
+  } catch (error) {
+    console.error(`Failed to add recommendation for ${postId}:`, error);
+    return c.json<ErrorResponse>(
+      {
+        status: 'error',
+        message: 'Failed to add the recommendation to the post comments.',
+      },
+      500
+    );
+  }
 
   return c.json<RecommendationResponse>({
     type: 'recommendation',
